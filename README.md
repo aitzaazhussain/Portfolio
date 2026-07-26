@@ -1,4 +1,4 @@
-# Aitzaaz Hussain — Portfolio (v2)
+# Aitzaaz Hussain — Portfolio 
 
 Rebuilt per the Master Build Prompt v2 spec: Next.js 14 App Router, Supabase-backed
 contact form, SEO-complete, rounded/blurred scroll-spy nav, marquee tech strip,
