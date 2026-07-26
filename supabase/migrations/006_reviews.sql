@@ -40,3 +40,4 @@ create policy "Anyone can submit a pending review"
 -- authenticated Supabase Auth session scoped to the site owner) can
 -- approve, reject, or edit a review. Wire that up alongside the /admin
 -- auth work from the v3 spec, not with a public policy here.
+
