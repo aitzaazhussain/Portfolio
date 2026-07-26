@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Calendar } from 'lucide-react'
 import { CALENDLY_URL } from '@/lib/data'
 
@@ -10,6 +11,7 @@ import { CALENDLY_URL } from '@/lib/data'
 // the "Floating CTA (Desktop & Mobile) → Book a Call" requirement.
 export function LetsTalkFAB() {
   const [visible, setVisible] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.6)
@@ -17,6 +19,7 @@ export function LetsTalkFAB() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  if (pathname.startsWith('/admin')) return null
   if (!visible) return null
 
   return (

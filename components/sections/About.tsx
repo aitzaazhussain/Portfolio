@@ -4,15 +4,29 @@ import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { TIMELINE } from '@/lib/data'
 import { Reveal } from '@/components/Reveal'
+import type { SiteSettingsContent } from '@/lib/cms'
 
 function scrollTo(href: string) {
   document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
 }
 
+const DEFAULT_BIO: SiteSettingsContent = {
+  tagline: '',
+  about_paragraph_1:
+    "I'm Aitzaaz Hussain — a full-stack developer, Shopify specialist, and AI solutions engineer who builds for outcomes, not just features.",
+  about_paragraph_2:
+    "I've built complete, production websites for real local businesses — including Al Madina Fast Food in Abbottabad, Al Baik Savour & BBQ, and Taj Mahal Banquet & Shadi Hall — handling everything from planning through launch and ongoing support.",
+  about_paragraph_3:
+    'Every project starts the same way: understand your business model and what success looks like, then let that shape the architecture, the UX, and every integration decision that follows. Full-stack, Shopify, and AI — all under one accountable, communicative partner.',
+}
+
 // Copy structured per the 7Cs of Communication: Clear, Concise, Concrete,
 // Correct, Coherent, Complete, Courteous. Kept to 3 short paragraphs —
 // this is a conversion section, not a long-form bio.
-export function About() {
+export function About({ bio }: { bio?: SiteSettingsContent }) {
+  const content = bio ?? DEFAULT_BIO
+  const paragraphs = [content.about_paragraph_1, content.about_paragraph_2, content.about_paragraph_3].filter(Boolean)
+
   return (
     <section id="about" className="py-24 px-6" style={{ background: 'var(--surface)' }}>
       <div className="max-w-7xl mx-auto">
@@ -28,20 +42,9 @@ export function About() {
               A Developer Who Understands <span className="gradient-text">Business</span>
             </h2>
             <div className="space-y-4" style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
-              <p>
-                I&apos;m Aitzaaz Hussain — a full-stack developer, Shopify specialist, and AI solutions engineer
-                who builds for outcomes, not just features.
-              </p>
-              <p>
-                I&apos;ve built complete, production websites for real local businesses — including Al Madina
-                Fast Food in Abbottabad, Al Baik Savour &amp; BBQ, and Taj Mahal Banquet &amp; Shadi Hall —
-                handling everything from planning through launch and ongoing support.
-              </p>
-              <p>
-                Every project starts the same way: understand your business model and what success looks like,
-                then let that shape the architecture, the UX, and every integration decision that follows.
-                Full-stack, Shopify, and AI — all under one accountable, communicative partner.
-              </p>
+              {paragraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+              ))}
             </div>
             <div className="flex flex-wrap gap-2 mt-8">
               {['Problem Solver', 'Business Minded', 'Fast Communicator', 'Detail Oriented', 'Long-Term Partner'].map((b) => (

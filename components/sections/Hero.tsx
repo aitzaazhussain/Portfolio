@@ -61,7 +61,7 @@ export function Hero() {
   }
 
   return (
-    <section id="home" className="relative flex items-center overflow-hidden pt-24" style={{ minHeight: '100dvh' }}>
+    <section id="home" className="relative flex items-center overflow-hidden pt-12" style={{ minHeight: '84dvh' }}>
       <div className="orb" style={{ width: 600, height: 600, background: 'var(--primary-glow)', top: -100, left: -100, opacity: 0.6 }} />
       <div className="orb" style={{ width: 500, height: 500, background: 'var(--secondary-glow)', bottom: -50, right: -50, opacity: 0.5 }} />
 
@@ -69,12 +69,12 @@ export function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 max-w-7xl mx-auto px-6 w-full py-8"
+        className="relative z-10 max-w-7xl mx-auto px-6 w-full py-6"
       >
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-center">
           {/* Mobile: photo first. Desktop: photo moves to the right column via lg:order-2. */}
           <motion.div variants={v} className="order-1 lg:order-2 flex justify-center lg:justify-end">
-            <div className="relative photo-float" style={{ width: 'min(78vw, 320px)' }}>
+            <div className="relative photo-float" style={{ width: 'min(72vw, 275px)' }}>
               <div className="photo-glow" aria-hidden="true" />
               <div
                 ref={cardRef}
@@ -94,7 +94,7 @@ export function Hero() {
                   alt="Aitzaaz Hussain, Full Stack Developer"
                   fill
                   priority
-                  sizes="(max-width: 1024px) 78vw, 320px"
+                  sizes="(max-width: 1024px) 72vw, 275px"
                   style={{ objectFit: 'cover' }}
                 />
               </div>
@@ -102,26 +102,26 @@ export function Hero() {
           </motion.div>
 
           <div className="order-2 lg:order-1">
-            <motion.div variants={v} className="flex items-center gap-2 mb-6">
+            <motion.div variants={v} className="flex items-center gap-2 mb-5">
               <span className="section-label">Available for Projects</span>
               <span className="w-2 h-2 rounded-full" style={{ background: 'var(--success)' }} />
             </motion.div>
 
             <motion.h1
               variants={v}
-              className="font-display font-bold leading-tight mb-6"
-              style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: 'var(--text)', letterSpacing: '-0.03em' }}
+              className="font-display font-bold leading-tight mb-5"
+              style={{ fontSize: 'clamp(1.85rem, 4.6vw, 3.2rem)', color: 'var(--text)', letterSpacing: '-0.03em' }}
             >
               Building Modern Websites, Shopify Stores &{' '}
               <span className="gradient-text">AI-Powered Solutions</span> That Help Businesses Grow
             </motion.h1>
 
-            <motion.p variants={v} className="mb-8 leading-relaxed" style={{ fontSize: 18, color: 'var(--text-muted)', maxWidth: 540 }}>
+            <motion.p variants={v} className="mb-6 leading-relaxed" style={{ fontSize: 17, color: 'var(--text-muted)', maxWidth: 540 }}>
               I help startups, businesses, and entrepreneurs create modern digital experiences that increase
               conversions, improve efficiency, and solve real business challenges.
             </motion.p>
 
-            <motion.div variants={v} className="flex flex-wrap gap-3 mb-6">
+            <motion.div variants={v} className="flex flex-wrap gap-4 mb-5">
               <button onClick={() => scrollTo('#case-studies')} className="btn-primary px-6 py-3.5 text-[15px]">
                 View Case Studies <ArrowRight size={16} />
               </button>
@@ -137,7 +137,7 @@ export function Hero() {
             </motion.div>
 
             {/* Small professional-platform icons — same destinations as Contact/Footer. */}
-            <motion.div variants={v} className="flex items-center gap-2 mb-8">
+            <motion.div variants={v} className="flex items-center gap-2 mb-6">
               {SOCIALS.filter((s) => s.href && s.label !== 'Instagram').map((s) => {
                 const Icon = SOCIAL_ICON_MAP[s.label]
                 return (
@@ -151,10 +151,10 @@ export function Hero() {
               </IconLink>
             </motion.div>
 
-            <motion.div variants={v} className="grid grid-cols-3 gap-4" style={{ maxWidth: 420 }}>
+            <motion.div variants={v} className="grid grid-cols-3 gap-5" style={{ maxWidth: 420 }}>
               {STATS.map((s) => (
                 <div key={s.label}>
-                  <div className="font-display font-bold gradient-text" style={{ fontSize: 24, letterSpacing: '-0.02em' }}>
+                  <div className="font-display font-bold gradient-text" style={{ fontSize: 22, letterSpacing: '-0.02em' }}>
                     {s.value}
                   </div>
                   <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>{s.label}</div>

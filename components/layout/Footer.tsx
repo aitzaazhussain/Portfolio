@@ -50,6 +50,8 @@ export function Footer() {
   const router = useRouter();
   const pathname = usePathname();
 
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <footer
       style={{

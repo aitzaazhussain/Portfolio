@@ -7,12 +7,8 @@ export const SITE = {
   // Display name is always "Aitzaaz Hussain" — never render a handle anywhere.
   name: 'Aitzaaz Hussain',
   tagline: 'Full-stack developer, Shopify expert & AI solutions engineer',
-  // Real inbox, already in active use — Aitzaaz confirmed this one is fine
-  // to display publicly. Swap to a real hello@aitzaazhussain.com once that
-  // business email is purchased and actually receiving mail — don't switch
-  // to it just because it looks more polished; an unmonitored domain email
-  // silently loses real leads, a checked Gmail inbox doesn't.
-  email: 'helloaitzaazhussain@gmail.com',
+  // Business inbox — displayed publicly across Hero, Footer, Contact, and SEO.
+  email: 'hello.aitzaazhussain@gmail.com',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://aitzaazhussain.com',
 }
 
@@ -146,6 +142,24 @@ export type CaseStudy = {
   liveUrl?: string
   githubUrl?: string
   featured: boolean
+}
+
+/** Supabase `case_studies` table row shape (snake_case columns). */
+export type CaseStudyRow = {
+  id: string
+  created_at: string
+  slug: string
+  title: string
+  category: string
+  tags: string[]
+  problem: string
+  solution: string
+  result: string
+  img: string | null
+  live_url: string | null
+  github_url: string | null
+  featured: boolean
+  published: boolean
 }
 
 // ── REAL CONTENT, NEEDS YOUR INPUT ──────────────────────────────────────────
