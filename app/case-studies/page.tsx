@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { CaseStudies } from '@/components/sections/CaseStudies'
 import { SITE } from '@/lib/data'
+import { getPublishedCaseStudies } from '@/lib/cms'
 
 export const metadata: Metadata = {
   title: 'Case Studies',
@@ -9,10 +10,12 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE.url}/case-studies` },
 }
 
-export default function CaseStudiesPage() {
+export default async function CaseStudiesPage() {
+  const caseStudies = await getPublishedCaseStudies()
+
   return (
     <div className="pt-24">
-      <CaseStudies />
+      <CaseStudies caseStudies={caseStudies} />
     </div>
   )
 }

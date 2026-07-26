@@ -140,6 +140,8 @@ export function Navbar() {
     setActive("");
   }, [pathname]);
 
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-4">
       <div

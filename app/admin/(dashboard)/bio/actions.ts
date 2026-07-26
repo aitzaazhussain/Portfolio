@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 
-export type BioFormState = { error: string } | { error: '' }
+export type BioFormState = { error: string; success: boolean }
 
 /**
  * Updates the single site_settings row. Bound to the <form action={...}>
@@ -17,7 +17,7 @@ export async function updateBio(_prevState: BioFormState, formData: FormData): P
   const paragraph3 = String(formData.get('about_paragraph_3') || '').trim()
 
   if (!tagline || !paragraph1) {
-    return { error: 'Tagline and the first paragraph are required.' }
+    return { error: 'Tagline and the first paragraph are required.', success: false }
   }
 
   const supabase = createClient()
@@ -34,7 +34,7 @@ export async function updateBio(_prevState: BioFormState, formData: FormData): P
 
   if (error) {
     console.error('site_settings update error:', error.message)
-    return { error: 'Could not save — please try again.' }
+    return { error: 'Could not save — please try again.', success: false }
   }
 
   // This is the piece that satisfies "no hard refresh needed": revalidatePath
@@ -46,5 +46,5 @@ export async function updateBio(_prevState: BioFormState, formData: FormData): P
   revalidatePath('/')
   revalidatePath('/admin/bio')
 
-  return { error: '' }
+  return { error: '', success: true }
 }

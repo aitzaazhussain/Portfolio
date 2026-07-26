@@ -4,16 +4,16 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ExternalLink, Github, ArrowUpRight } from 'lucide-react'
-import { CASE_STUDIES, CASE_STUDY_FILTERS } from '@/lib/data'
+import { CASE_STUDIES, CASE_STUDY_FILTERS, type CaseStudy } from '@/lib/data'
 import { Reveal } from '@/components/Reveal'
 
-export function CaseStudies() {
+export function CaseStudies({ caseStudies = CASE_STUDIES }: { caseStudies?: CaseStudy[] }) {
   const [active, setActive] = useState('All')
 
   const filtered =
     active === 'All'
-      ? CASE_STUDIES
-      : CASE_STUDIES.filter((c) => c.tags.includes(active) || c.category === active)
+      ? caseStudies
+      : caseStudies.filter((c) => c.tags.includes(active) || c.category === active)
 
   return (
     <section id="case-studies" className="py-24 px-6" style={{ background: 'var(--surface)' }}>

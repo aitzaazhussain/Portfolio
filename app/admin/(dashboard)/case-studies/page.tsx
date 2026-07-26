@@ -3,11 +3,40 @@ import { createClient } from '@/lib/supabase/server'
 import type { CaseStudyRow } from '@/lib/data'
 import { deleteCaseStudy } from './actions'
 
-export default async function AdminCaseStudiesPage() {
+function FlashMessage({ saved, deleted }: { saved?: string; deleted?: string }) {
+  if (saved === '1') {
+    return (
+      <p
+        className="mb-4 px-4 py-3 rounded-lg"
+        style={{ fontSize: 13, color: 'var(--secondary)', background: 'rgba(20,184,166,0.1)', border: '1px solid rgba(20,184,166,0.25)' }}
+        role="status"
+      >
+        Case study saved successfully
+      </p>
+    )
+  }
+
+  if (deleted === '1') {
+    return (
+      <p
+        className="mb-4 px-4 py-3 rounded-lg"
+        style={{ fontSize: 13, color: 'var(--secondary)', background: 'rgba(20,184,166,0.1)', border: '1px solid rgba(20,184,166,0.25)' }}
+        role="status"
+      >
+        Case study deleted successfully
+      </p>
+    )
+  }
+
+  return null
+}
+
+export default async function AdminCaseStudiesPage({
+  searchParams,
+}: {
+  searchParams: { saved?: string; deleted?: string }
+}) {
   const supabase = createClient()
-  // Uses the "Authenticated admin can read all case studies" policy from
-  // 007_admin_write_access.sql, so drafts (published = false) show up here
-  // even though the public site never sees them.
   const { data: caseStudies } = await supabase
     .from('case_studies')
     .select('*')
@@ -16,6 +45,8 @@ export default async function AdminCaseStudiesPage() {
 
   return (
     <div>
+      <FlashMessage saved={searchParams.saved} deleted={searchParams.deleted} />
+
       <div className="flex items-center justify-between mb-6">
         <h1 className="font-display font-bold" style={{ fontSize: 24, color: 'var(--text)' }}>
           Case Studies
@@ -44,9 +75,6 @@ export default async function AdminCaseStudiesPage() {
               >
                 Edit
               </Link>
-              {/* Server actions bound with an extra argument (the id) work
-                  directly as a form action — no client-side JS needed for
-                  this button to work. */}
               <form action={deleteCaseStudy.bind(null, c.id)}>
                 <button type="submit" className="px-3 py-1.5 text-xs rounded-lg" style={{ color: '#F87171', border: '1px solid rgba(248,113,113,0.3)' }}>
                   Delete

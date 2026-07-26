@@ -41,7 +41,7 @@ function SaveButton() {
 }
 
 export function BioForm({ initial }: { initial: SiteSettings }) {
-  const initialState: BioFormState = { error: '' }
+  const initialState: BioFormState = { error: '', success: false }
   const [state, formAction] = useFormState(updateBio, initialState)
 
   return (
@@ -88,8 +88,18 @@ export function BioForm({ initial }: { initial: SiteSettings }) {
         />
       </div>
 
+      {state.success && (
+        <p
+          className="px-4 py-3 rounded-lg"
+          style={{ fontSize: 13, color: 'var(--secondary)', background: 'rgba(20,184,166,0.1)', border: '1px solid rgba(20,184,166,0.25)' }}
+          role="status"
+        >
+          Bio updated successfully
+        </p>
+      )}
+
       {state.error && (
-        <p style={{ fontSize: 13, color: '#F87171' }}>{state.error}</p>
+        <p style={{ fontSize: 13, color: '#F87171' }} role="alert">{state.error}</p>
       )}
 
       <SaveButton />

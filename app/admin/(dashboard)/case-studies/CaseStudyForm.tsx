@@ -60,7 +60,7 @@ export function CaseStudyForm({
   initial: CaseStudyFormValues
   submitLabel: string
 }) {
-  const initialState: CaseStudyFormState = { error: '' }
+  const initialState: CaseStudyFormState = { error: '', success: false }
   const [state, formAction] = useFormState(action, initialState)
 
   return (
@@ -133,7 +133,7 @@ export function CaseStudyForm({
         </label>
       </div>
 
-      {state.error && <p style={{ fontSize: 13, color: '#F87171' }}>{state.error}</p>}
+      {state.error && <p style={{ fontSize: 13, color: '#F87171' }} role="alert">{state.error}</p>}
 
       <SaveButton label={submitLabel} />
     </form>

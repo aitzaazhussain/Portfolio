@@ -3,15 +3,17 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, ExternalLink, Github, CheckCircle2 } from 'lucide-react'
-import { CASE_STUDIES, SITE } from '@/lib/data'
+import { SITE } from '@/lib/data'
 import { caseStudyJsonLd } from '@/lib/seo/jsonld'
+import { getAllPublishedCaseStudySlugs, getCaseStudyBySlug } from '@/lib/cms'
 
-export function generateStaticParams() {
-  return CASE_STUDIES.map((c) => ({ slug: c.slug }))
+export async function generateStaticParams() {
+  const slugs = await getAllPublishedCaseStudySlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const study = CASE_STUDIES.find((c) => c.slug === params.slug)
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const study = await getCaseStudyBySlug(params.slug)
   if (!study) return {}
   const url = `${SITE.url}/case-studies/${study.slug}`
   return {
@@ -43,8 +45,8 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
-export default function CaseStudyDetail({ params }: { params: { slug: string } }) {
-  const study = CASE_STUDIES.find((c) => c.slug === params.slug)
+export default async function CaseStudyDetail({ params }: { params: { slug: string } }) {
+  const study = await getCaseStudyBySlug(params.slug)
   if (!study) notFound()
 
   const gallery = study.gallery && study.gallery.length > 0 ? study.gallery : [study.img]
@@ -90,15 +92,17 @@ export default function CaseStudyDetail({ params }: { params: { slug: string } }
 
         <div className="grid md:grid-cols-2 gap-5 mb-5">
           <Field label="Problem">{study.problem}</Field>
-          <Field label="Research">{study.research}</Field>
-          <Field label="Planning">{study.planning}</Field>
-          <Field label="Design">{study.design}</Field>
-          <Field label="Development">{study.development}</Field>
-          <Field label="Challenges">{study.challenges}</Field>
+          {study.research && <Field label="Research">{study.research}</Field>}
+          {study.planning && <Field label="Planning">{study.planning}</Field>}
+          {study.design && <Field label="Design">{study.design}</Field>}
+          {study.development && <Field label="Development">{study.development}</Field>}
+          {study.challenges && <Field label="Challenges">{study.challenges}</Field>}
         </div>
-        <div className="mb-5">
-          <Field label="Solutions">{study.solutions}</Field>
-        </div>
+        {study.solutions && (
+          <div className="mb-5">
+            <Field label="Solutions">{study.solutions}</Field>
+          </div>
+        )}
 
         {study.technologies.length > 0 && (
           <div className="mb-8">
@@ -126,14 +130,12 @@ export default function CaseStudyDetail({ params }: { params: { slug: string } }
           </div>
         )}
 
-        {/* Business impact — only rendered if a real, verified figure exists. */}
         {study.businessImpact && (
           <div className="px-4 py-3 rounded-lg font-mono-custom text-sm mb-8" style={{ background: 'var(--surface2)', border: '1px solid var(--border)', color: 'var(--secondary)' }}>
             ↗ {study.businessImpact}
           </div>
         )}
 
-        {/* Client testimonial — only rendered if the client actually gave one. */}
         {study.clientTestimonial && (
           <div className="card gradient-border p-6 mb-8">
             <p className="text-sm italic leading-relaxed mb-3" style={{ color: 'var(--text)' }}>

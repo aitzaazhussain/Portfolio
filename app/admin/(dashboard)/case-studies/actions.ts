@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
-export type CaseStudyFormState = { error: string } | { error: '' }
+export type CaseStudyFormState = { error: string; success: boolean }
 
 // Shared by create + update — pulls and lightly cleans the fields that are
 // common to both. Tags are submitted as one comma-separated text input
@@ -40,7 +40,7 @@ export async function createCaseStudy(
   const fields = readCaseStudyFields(formData)
 
   if (!fields.slug || !fields.title || !fields.problem) {
-    return { error: 'Slug, title, and problem are required.' }
+    return { error: 'Slug, title, and problem are required.', success: false }
   }
 
   const supabase = createClient()
@@ -50,16 +50,16 @@ export async function createCaseStudy(
     // Postgres unique_violation on the slug column — give a specific,
     // actionable message instead of the raw DB error.
     if (error.code === '23505') {
-      return { error: `A case study with slug "${fields.slug}" already exists.` }
+      return { error: `A case study with slug "${fields.slug}" already exists.`, success: false }
     }
     console.error('case_studies insert error:', error.message)
-    return { error: 'Could not save — please try again.' }
+    return { error: 'Could not save — please try again.', success: false }
   }
 
-  revalidatePath('/') // homepage teaser grid
-  revalidatePath('/admin/case-studies') // admin list
+  revalidatePath('/')
+  revalidatePath('/admin/case-studies')
 
-  redirect('/admin/case-studies')
+  redirect('/admin/case-studies?saved=1')
 }
 
 /**
@@ -74,7 +74,7 @@ export async function updateCaseStudy(
   const fields = readCaseStudyFields(formData)
 
   if (!fields.slug || !fields.title || !fields.problem) {
-    return { error: 'Slug, title, and problem are required.' }
+    return { error: 'Slug, title, and problem are required.', success: false }
   }
 
   const supabase = createClient()
@@ -82,16 +82,16 @@ export async function updateCaseStudy(
 
   if (error) {
     if (error.code === '23505') {
-      return { error: `A case study with slug "${fields.slug}" already exists.` }
+      return { error: `A case study with slug "${fields.slug}" already exists.`, success: false }
     }
     console.error('case_studies update error:', error.message)
-    return { error: 'Could not save — please try again.' }
+    return { error: 'Could not save — please try again.', success: false }
   }
 
   revalidatePath('/')
   revalidatePath('/admin/case-studies')
 
-  redirect('/admin/case-studies')
+  redirect('/admin/case-studies?saved=1')
 }
 
 /**
@@ -110,4 +110,5 @@ export async function deleteCaseStudy(id: string) {
 
   revalidatePath('/')
   revalidatePath('/admin/case-studies')
+  redirect('/admin/case-studies?deleted=1')
 }

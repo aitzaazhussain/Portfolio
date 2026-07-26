@@ -15,25 +15,28 @@ import { Blog } from '@/components/sections/Blog'
 import { ProjectCTA } from '@/components/sections/ProjectCTA'
 import { Contact } from '@/components/sections/Contact'
 import { SHOW_CERTIFICATIONS } from '@/lib/data'
+import { getPublishedCaseStudies, getSiteSettings } from '@/lib/cms'
 
 // Section order here MUST match NAV_LINKS in lib/data.ts exactly for the 9
 // anchor sections (Home/About/Services/Skills/Experience/Case Studies/
 // How We Work Together/Blog/Contact) — non-anchor filler sections (TrustBar,
 // WhyChooseMe, MoreThanDevelopment, TrustedTech, Testimonials, Certifications,
 // ProjectCTA) can sit between them freely.
-export default function HomePage() {
+export default async function HomePage() {
+  const [bio, caseStudies] = await Promise.all([getSiteSettings(), getPublishedCaseStudies()])
+
   return (
     <>
       <Hero />
       <TrustBar />
       <WhyChooseMe />
-      <About />
+      <About bio={bio} />
       <MoreThanDevelopment />
       <Services />
       <Skills />
       <TrustedTech />
       <Experience />
-      <CaseStudies />
+      <CaseStudies caseStudies={caseStudies} />
       <HowWeWork />
       <Testimonials />
       {SHOW_CERTIFICATIONS && <Certifications />}
