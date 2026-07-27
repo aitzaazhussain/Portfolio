@@ -1,8 +1,6 @@
 # Aitzaaz Hussain — Portfolio 
 
-Rebuilt per the Master Build Prompt v2 spec: Next.js 14 App Router, Supabase-backed
-contact form, SEO-complete, rounded/blurred scroll-spy nav, marquee tech strip,
-consolidated footer socials.
+Full-stack developer portfolio built as a Serverless CMS — React 19 + Vite frontend reading live from a Supabase (PostgreSQL) database, with a hidden /admin dashboard for real-time content updates. Styled with a custom Technical Blueprint design language. Deployed on Vercel.
 
 ## Getting started
 
