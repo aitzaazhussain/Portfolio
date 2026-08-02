@@ -26,6 +26,10 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
+
+  alternates: {
+    canonical: "/",
+  },
   title: {
     default: `${SITE.name} — Full-Stack Developer, Shopify Expert & AI Solutions Engineer`,
     template: `%s — ${SITE.name}`,
